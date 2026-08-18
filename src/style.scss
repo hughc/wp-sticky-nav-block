@@ -1,0 +1,186 @@
+// Sticky Nav Block — BEMIT styles
+// snb = sticky nav block namespace
+
+// CSS customisable properties (defaults)
+:root {
+  --snb-top: 80px;
+  --snb-right: 20px;
+  --snb-width: 280px;
+  --snb-max-height: calc(100vh - var(--snb-top));
+  --snb-z-index: 999;
+  --snb-transition-speed: 0.2s;
+  --snb-bg: #fff;
+  --snb-border: #e0e0e0;
+  --snb-active-color: #0073aa;
+  --snb-collapse-width: 1200px;
+  --snb-collapsed-width: 44px;
+  --snb-icon-color: currentColor;
+}
+
+.snb-block {
+  // Visibility controlled by JS when showAfterScroll is set
+  --snb-visibility: 1;
+  opacity: var(--snb-visibility);
+  transition: opacity var(--snb-transition-speed) ease;
+
+  // Mobile: inline
+  @media (max-width: 767px) {
+    margin-bottom: 16px;
+  }
+}
+
+.snb-block--pinned {
+  position: fixed;
+  top: var(--snb-top);
+  right: var(--snb-right);
+  left: auto;
+  width: var(--snb-width);
+  max-height: var(--snb-max-height);
+  overflow-y: auto;
+  z-index: var(--snb-z-index);
+  background: var(--snb-bg);
+  border: 1px solid var(--snb-border);
+  border-radius: 4px;
+  padding: 8px;
+
+  // Collapsed: compact icon pill
+  &.snb-block--collapsed {
+    width: 44px;
+    padding: 8px;
+    max-height: none;
+    overflow: visible;
+
+    .snb-block__header {
+      border-bottom: none;
+      padding-bottom: 0;
+      justify-content: flex-end;
+    }
+  }
+}
+
+// Collapse button — visibility controlled by JS based on block attributes.
+// Default: hidden. JS sets display based on viewport width vs desktopBreakpoint / collapseBreakpoint.
+.snb-block__collapse-btn {
+  display: none;
+  flex: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  color: var(--snb-icon-color);
+}
+
+.snb-block__icon {
+}
+
+// Default icon state: show close (X) to collapse, hide hamburger
+.snb-block__icon--open {
+  display: none;
+}
+
+.snb-block__icon--close {
+  display: inline-flex;
+}
+
+// Collapsed: hide body, title, swap icons — show hamburger to expand
+.snb-block--collapsed {
+  .snb-block__body,
+  .snb-block__title {
+    display: none;
+  }
+  .snb-block__icon--open {
+    display: inline-flex;
+  }
+  .snb-block__icon--close {
+    display: none;
+  }
+}
+
+.snb-block__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.snb-block__title {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.snb-block__toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  line-height: 1;
+
+  @media (max-width: 767px) {
+    display: block;
+  }
+}
+
+.snb-block__toggle-icon {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+
+  .snb-block[aria-expanded="false"] & {
+    transform: rotate(-45deg);
+  }
+}
+
+.snb-block__body {
+  // Collapsible state on mobile
+  @media (max-width: 767px) {
+    .snb-block--collapsible[aria-expanded="false"] & {
+      display: none;
+    }
+  }
+}
+
+.snb-block__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  &--nested {
+    padding-left: 16px;
+  }
+}
+
+.snb-block__item {
+  margin: 0;
+}
+
+.snb-block__link {
+  display: block;
+  padding: 4px 0;
+  text-decoration: none;
+  color: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  border-left: 2px solid transparent;
+  padding-left: 8px;
+  transition: all 0.15s ease;
+
+  &:hover {
+    color: var(--snb-active-color);
+    border-left-color: var(--snb-active-color);
+  }
+
+  &.snb-block__link--active {
+    color: var(--snb-active-color);
+    font-weight: 600;
+    border-left-color: var(--snb-active-color);
+  }
+}

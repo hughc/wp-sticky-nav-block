@@ -1,0 +1,55 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "rav/sticky-nav-block",
+  "version": "0.1.0",
+  "title": "Sticky Nav Block",
+  "category": "widgets",
+  "icon": "list-view",
+  "description": "A navigational menu / Table of Contents with smooth scroll and scrollspy.",
+  "textdomain": "sticky-nav-block",
+  "editorScript": "file:./build/index.js",
+  "style": "file:./build/style.css",
+  "viewScript": "file:./build/frontend.js",
+  "attributes": {
+    "scrollToOffset": {
+      "type": "number",
+      "default": 0
+    },
+    "tagsList": {
+      "type": "string",
+      "default": "h2"
+    },
+    "excludeClass": {
+      "type": "string",
+      "default": ""
+    },
+    "menuTag": {
+      "type": "string",
+      "enum": [
+        "ul",
+        "ol"
+      ],
+      "default": "ul"
+    },
+    "headerText": {
+      "type": "string",
+      "default": "Table of Contents"
+    },
+    "collapsible": {
+      "type": "boolean",
+      "default": false
+    },
+    "topOffset": {
+      "type": "number",
+      "default": 80
+    },
+    "showAfterScroll": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "supports": {
+    "html": false
+  }
+}
