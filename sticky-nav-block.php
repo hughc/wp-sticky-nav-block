@@ -6,7 +6,9 @@
  * Version:           0.1.0
  * Requires at least: 6.0
  * Requires PHP:      7.4
- * Author:            RAV
+ * Author:            Highbrow Interactive
+ * Author URI:        https://highbrow.com.au
+ * GitHub Plugin URI: https://github.com/hughc/wp-sticky-nav-block
  * Text Domain:       sticky-nav-block
  */
 

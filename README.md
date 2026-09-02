@@ -4,16 +4,19 @@ A Gutenberg block that renders a navigational table of contents with smooth scro
 
 ## Block Attributes
 
-| Attribute         | Type    | Default               | Description                                                       |
-| ----------------- | ------- | --------------------- | ----------------------------------------------------------------- |
-| `tagsList`        | string  | `"h2"`                | Comma-separated heading tags to include (e.g. `"h2,h3,h4"`)       |
-| `excludeClass`    | string  | `""`                  | CSS class — headings with this class are skipped                  |
-| `menuTag`         | string  | `"ul"`                | Menu list tag: `"ul"` or `"ol"`                                   |
-| `headerText`      | string  | `"Table of Contents"` | Heading text shown above the menu                                 |
-| `collapsible`     | boolean | `false`               | On mobile (<768px), menu collapses behind a toggle button         |
-| `scrollToOffset`  | integer | `0`                   | Extra px subtracted from scroll-to-target position                |
-| `topOffset`       | integer | `80`                  | CSS `--snb-top` value — distance from top of viewport when pinned |
-| `showAfterScroll` | integer | `0`                   | Block stays hidden until user scrolls this many px, then fades in |
+| Attribute           | Type    | Default               | Description                                                       |
+| ------------------- | ------- | --------------------- | ----------------------------------------------------------------- |
+| `tagsList`          | string  | `"h2"`                | Comma-separated heading tags to include (e.g. `"h2,h3,h4"`)       |
+| `excludeClass`      | string  | `""`                  | CSS class — headings with this class are skipped                  |
+| `menuTag`           | string  | `"ul"`                | Menu list tag: `"ul"` or `"ol"`                                   |
+| `headerText`        | string  | `"Table of Contents"` | Heading text shown above the menu                                 |
+| `collapsible`       | boolean | `false`               | On mobile (<768px), menu collapses behind a toggle button         |
+| `scrollToOffset`    | integer | `0`                   | Extra px subtracted from scroll-to-target position                |
+| `topOffset`         | integer | `80`                  | Sets `--snb-top` — distance from top of viewport when pinned      |
+| `panelWidth`        | integer | `280`                 | Sets `--snb-width` — panel width when fully expanded               |
+| `showAfterScroll`   | integer | `0`                   | Block stays hidden until user scrolls this many px, then fades in |
+| `desktopBreakpoint` | integer | `768`                 | Viewport width (px) at which the block becomes fixed-position     |
+| `collapseBreakpoint`| integer | `1200`                | Viewport width (px) at which the collapse pill stops appearing    |
 
 ## Behaviour
 
@@ -27,9 +30,9 @@ All values below are defaults set by the plugin. Override any of them in your th
 s
 | Variable | Default | Controls |
 | ------------------------ | ------------------------------ | ------------------------------------------------ |
-| `--snb-top` | `80px` | Distance from top of viewport when pinned |
+| `--snb-top` | `80px` | Distance from top of viewport when pinned *(set by `topOffset` attribute)* |
 | `--snb-right` | `20px` | Distance from right edge when pinned |
-| `--snb-width` | `280px` | Panel width when fully expanded |
+| `--snb-width` | `280px` | Panel width when fully expanded *(set by `panelWidth` attribute)* |
 | `--snb-max-height` | `calc(100vh - var(--snb-top))` | Max panel height (auto-derived) |
 | `--snb-z-index` | `999` | Stacking order |
 | `--snb-transition-speed` | `0.2s` | Fade transition speed |
@@ -83,7 +86,10 @@ A single IIFE runs on page load. It finds every `[data-snb]` element and sets up
 
 - **`updateCollapseBtnVisibility(vw)`** — shows or hides the collapse button based on the current viewport width vs the per-block `desktopBreakpoint` and `collapseBreakpoint` values (read from `data-desktop-bp` / `data-collapse-bp` attributes). No CSS media queries are used for this — JS is the single source of truth.
 
-## BEMIT Skeleton
+## Updates
+If you utilise the [Git Updater](https://github.com/afragen/git-updater) plugin, you can get patches delivered when new versions are published to Github.
+
+## BEMIT Styling Skeleton
 
 Copy the rules below into your theme's `style.scss` to override plugin styles.
 Selectors are listed with zero declarations — add properties as needed.
@@ -107,77 +113,80 @@ Selectors are listed with zero declarations — add properties as needed.
   --snb-icon-color: currentColor;
 }
 
-// Root block — visibility & mobile margin
 .snb-block {
-}
 
-// Pinned (fixed) state
-.snb-block--pinned {
-}
+  // ── Modifiers ──
 
-// Collapsed pill state (768–1199px)
-.snb-block--pinned.snb-block--collapsed {
-}
-.snb-block--pinned.snb-block--collapsed .snb-block__header {
-}
+  // Pinned (fixed) state
+  &--pinned {
+  }
 
-// Collapse toggle button (tablet/narrow desktop)
-.snb-block__collapse-btn {
-}
+  // Collapsed pill state (768–1199px)
+  &--pinned&--collapsed {
+  }
+  &--pinned&--collapsed &__header {
+  }
 
-// SVG icons inside collapse button
-.snb-block__icon {
-}
-.snb-block__icon--open {
-} // hamburger — visible when collapsed (click to expand)
-.snb-block__icon--close {
-} // X — visible when expanded (click to collapse)
+  // Collapsed state — hides body, title; swaps icons
+  &--collapsed {
+  }
+  &--collapsed &__body {
+  }
+  &--collapsed &__title {
+  }
+  &--collapsed &__icon--open {
+  }
+  &--collapsed &__icon--close {
+  }
 
-// Collapsed state — hides body, title; swaps icons
-.snb-block--collapsed {
-}
-.snb-block--collapsed .snb-block__body {
-}
-.snb-block--collapsed .snb-block__title {
-}
-.snb-block--collapsed .snb-block__icon--open {
-}
-.snb-block--collapsed .snb-block__icon--close {
-}
+  // ── Elements ──
 
-// Header row (title + buttons)
-.snb-block__header {
-}
+  // Header row (title + buttons)
+  &__header {
+  }
 
-// Title text
-.snb-block__title {
-}
+  // Title text
+  &__title {
+  }
 
-// Mobile toggle button (<768px)
-.snb-block__toggle {
-}
-.snb-block__toggle-icon {
-}
+  // Collapse toggle button (tablet/narrow desktop)
+  &__collapse-btn {
+  }
 
-// Menu container
-.snb-block__body {
-}
+  // SVG icons inside collapse button
+  &__icon {
+  }
+  &__icon--open {
+  } // hamburger — visible when collapsed (click to expand)
+  &__icon--close {
+  } // X — visible when expanded (click to collapse)
 
-// Menu list
-.snb-block__list {
-}
-.snb-block__list--nested {
-}
+  // Mobile toggle button (<768px)
+  &__toggle {
+  }
+  &__toggle-icon {
+  }
 
-// Individual menu item
-.snb-block__item {
-}
+  // Menu container
+  &__body {
+  }
 
-// Individual menu link
-.snb-block__link {
-}
-.snb-block__link:hover {
-}
-.snb-block__link--active {
+  // Menu list
+  &__list {
+  }
+  &__list--nested {
+  }
+
+  // Individual menu item
+  &__item {
+  }
+
+  // Individual menu link
+  &__link {
+  }
+  &__link:hover {
+  }
+  &__link--active {
+  }
 }
 ```
